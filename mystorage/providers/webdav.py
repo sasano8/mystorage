@@ -1,10 +1,12 @@
+import os
+from datetime import datetime, timedelta, timezone
+
 from pydantic import BaseModel
 from webdav3.client import Client as Webdav3Client
-from webdav3.exceptions import ResponseErrorCode, RemoteResourceNotFound
-from mystorage.types import ProviderFactory, Provider, ResourceTypes
+from webdav3.exceptions import RemoteResourceNotFound, ResponseErrorCode
+
 from mystorage.exceptions import StorageException
-from datetime import datetime, timezone, timedelta
-import os
+from mystorage.types import Provider, ProviderFactory, ResourceTypes
 
 # https://github.com/ezhov-evgeny/webdav-client-python-3
 # PUT DELETE MKCOL COPY MOVE
@@ -23,16 +25,14 @@ class WebdavConfig(BaseModel, ProviderFactory):
     webdav_root: str = "/"
 
     def get_url(self):
-        return (
-            f"{self.protocol}://{self.host}:{self.port}/{self.base_path}/{self.user}"
-        )
+        return f"{self.protocol}://{self.host}:{self.port}/{self.base_path}/{self.user}"
 
     def get_option(self):
         return {
             "webdav_hostname": self.get_url(),
             "webdav_login": self.user,
             "webdav_password": self.password,
-            "webdav_root": self.webdav_root
+            "webdav_root": self.webdav_root,
         }
 
     def get_native_provider(self):
@@ -106,8 +106,9 @@ class WebdavProvider(Provider):
     def options(self, path):
         # サーバからhttpメソッド: options を使ってサーバーの情報が取れるみたいだが、クライアントにそれらしい実装はない
         from webdav3.urn import Urn
+
         urn = Urn(path)
-        response = self.client.execute_request(action='check', path=urn.quote())
+        response = self.client.execute_request(action="check", path=urn.quote())
         response.raise_for_status()
         # response.headers
         return response.headers

@@ -1,12 +1,14 @@
-from mystorage import providers
-from mystorage.types import Provider, SafeClient
-from mystorage.exceptions import StorageException
-from mystorage.testtool import Cleanup, NoCleanup
 import io
-import pytest
-
 import tempfile
 from pathlib import Path
+
+import pytest
+
+from mystorage import providers
+from mystorage.exceptions import StorageException
+from mystorage.testtool import Cleanup, NoCleanup
+from mystorage.types import Provider, SafeClient
+
 
 @pytest.fixture
 def tmpdir():
@@ -95,7 +97,9 @@ def test_providers(tmpdir: Path):
 
         assert provider.exists(ROOT + "/not_exists.txt") == False
         with pytest.raises(StorageException):
-            assert provider.copy(ROOT + "/not_exists.txt", ROOT + "/copied2.txt") is None
+            assert (
+                provider.copy(ROOT + "/not_exists.txt", ROOT + "/copied2.txt") is None
+            )
 
         # rename
         assert provider.exists(ROOT + "/copied.txt") == True
@@ -107,11 +111,14 @@ def test_providers(tmpdir: Path):
 
         assert provider.exists(ROOT + "/not_exists.txt") == False
         with pytest.raises(StorageException):
-            assert provider.rename(ROOT + "/not_exists.txt", ROOT + "/renamed2.txt") is None
+            assert (
+                provider.rename(ROOT + "/not_exists.txt", ROOT + "/renamed2.txt")
+                is None
+            )
 
         if True:
-            DIR_DOWN = (tmpdir / "download_test")
-            DIR_UP = (tmpdir / "upload_test")
+            DIR_DOWN = tmpdir / "download_test"
+            DIR_UP = tmpdir / "upload_test"
             DIR_DOWN.mkdir()
             DIR_UP.mkdir()
         else:
@@ -134,16 +141,32 @@ def test_providers(tmpdir: Path):
         assert len(list(DIR_DOWN.glob("*"))) == 2
 
         assert provider.touch(ROOT + "/download_file3.txt")
-        assert provider.download(ROOT + "/download_file3.txt", str(DIR_DOWN) + "/download_file3.txt") is None
+        assert (
+            provider.download(
+                ROOT + "/download_file3.txt", str(DIR_DOWN) + "/download_file3.txt"
+            )
+            is None
+        )
         assert len(list(DIR_DOWN.glob("*"))) == 3
 
         # if no exists dir
-        assert provider.download(ROOT + "/download_file3.txt", str(DIR_DOWN) + "/no_exists/download_file3.txt") is None
+        assert (
+            provider.download(
+                ROOT + "/download_file3.txt",
+                str(DIR_DOWN) + "/no_exists/download_file3.txt",
+            )
+            is None
+        )
         assert len(list(DIR_DOWN.glob("*"))) == 3
 
         # overwrite
         assert provider.touch(ROOT + "/download_file4.txt")
-        assert provider.download(ROOT + "/download_file4.txt", str(DIR_DOWN) + "/download_file3.txt") is None
+        assert (
+            provider.download(
+                ROOT + "/download_file4.txt", str(DIR_DOWN) + "/download_file3.txt"
+            )
+            is None
+        )
         assert len(list(DIR_DOWN.glob("*"))) == 3
 
         # upload

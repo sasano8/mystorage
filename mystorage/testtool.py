@@ -1,5 +1,6 @@
 from mystorage.types import Provider
 
+
 class Cleanup:
     def __init__(self, root, provider: Provider):
         self.root = root
@@ -51,7 +52,7 @@ def iterate(func):
 
 
 class SpecDiffTool:
-    def __init__(self, root, *providers: Provider, ignore_functions= set()):
+    def __init__(self, root, *providers: Provider, ignore_functions=set()):
         self.root = root
         self.providers = providers
         if not root:

@@ -1,9 +1,8 @@
+import glob
 import os
 import tempfile
 import uuid
 from typing import Iterable
-import glob
-
 
 """
 # create a temporary directory, which is cleaned up when you go out of scope
@@ -19,6 +18,7 @@ With RealDir("your_dir", ignore_exists=True) as dir:
   ...
 
 """
+
 
 class Dir:
     def __enter__(self):
@@ -106,7 +106,9 @@ class RealDir(InfinityTempNames):
         self._ignore_exists = ignore_exists
 
         if not ignore_exists and os.path.exists(dirname):
-            raise RuntimeError(f"Directory: {dirname} already exsits. If you ignore it use ignore_exists = True.")
+            raise RuntimeError(
+                f"Directory: {dirname} already exsits. If you ignore it use ignore_exists = True."
+            )
 
         if os.path.exists(dirname) and not os.path.isdir(dirname):
             raise RuntimeError("Must be directory.")
