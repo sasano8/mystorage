@@ -1,0 +1,11 @@
+INHERIT: ./common/mkdocs_base.yml
+
+site_name: serializer
+site_description: serializer
+# site_url: https://serializer
+# repo_name: serializer
+# repo_url: https://github.com/user/serializer
+edit_uri: "edit/main/docs/"
+
+nav:
+  - Introduction: "index.md"

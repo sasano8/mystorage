@@ -1,0 +1,32 @@
+[tool.poetry]
+name = "mystorage"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+
+[tool.poetry.dependencies]
+python = ">=3.8,<3.11"
+webdavclient3 = "^3.14.6"
+pydantic = "^1.10.2"
+
+[tool.poetry.group.test.dependencies]
+pre-commit = "^2.12.0"
+black = "^22.10.0"
+isort = "^5.8.0"
+flake8 = "^3.9.0"
+mypy = "^0.812"
+pytest = "^6.2.2"
+pytest-cov = "^3.0.0"
+ruff = "^0.0.128"
+
+[tool.poetry.group.docs.dependencies]
+mkdocs = "^1.4.2"
+mkautodoc = "^0.2.0"
+mkdocs-material = "^8.5.8"
+pymdown-extensions = "^9.7"
+mkdocs-print-site-plugin = "^2.3.4"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+

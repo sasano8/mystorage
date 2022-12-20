@@ -1,0 +1,6 @@
+class GitStorage:
+    ...
+
+
+class GitIgnoreStorage:
+    ...
